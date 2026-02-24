@@ -14,6 +14,96 @@ It's a simple package allowing you to display the quran as mushaf
 - Use this method [_renderChapterAyahs(chapterId)] to render the number of surah verses(Ayahs).
 - Scroll to a specific verse(Ayah) page.
 - Support RTL Or LTR.
+- **NEW in v1.4.0:** Background font preloading for instant page loads
+- **NEW in v1.4.0:** Batch font downloads with progress tracking
+- **NEW in v1.4.0:** Font cache management utilities
+
+## 🚀 Font Preloading (New in v1.4.0)
+
+Dramatically improve loading performance by preloading Quran fonts in the background!
+
+### Quick Start
+
+```typescript
+import { useQuranFontPreloader, PRIORITY_PAGES } from 'react-native-quran-hafs';
+
+function QuranListScreen() {
+  const { isPreloading, progress } = useQuranFontPreloader({
+    pages: PRIORITY_PAGES,
+    quranFontApi: 'https://raw.githubusercontent.com/quran/quran.com-images/master/fonts/',
+    autoStart: true,
+  });
+
+  return (
+    <View>
+      {isPreloading && (
+        <Text>Preparing Quran: {progress.percentage}%</Text>
+      )}
+      {/* Your Surah list */}
+    </View>
+  );
+}
+```
+
+### Advanced Usage
+
+#### Batch Download Specific Pages
+
+```typescript
+import { downloadMultiplePageFonts } from 'react-native-quran-hafs';
+
+const pages = [1, 2, 293, 294, 295]; // Al-Fatihah + start of Al-Kahf
+
+await downloadMultiplePageFonts(
+  pages,
+  'https://raw.githubusercontent.com/quran/quran.com-images/master/fonts/',
+  (current, total, page) => {
+    console.log(`Downloaded ${current}/${total} - Page ${page}`);
+  }
+);
+```
+
+#### Check Cache Status
+
+```typescript
+import { isFontCached, getFontCacheStats } from 'react-native-quran-hafs';
+
+// Check single page
+const isCached = await isFontCached(1); // true/false
+
+// Get cache statistics
+const stats = await getFontCacheStats();
+console.log(`Cached: ${stats.totalCached} fonts`);
+```
+
+#### Clear Cache
+
+```typescript
+import { clearFontCache } from 'react-native-quran-hafs';
+
+// Clear all fonts
+await clearFontCache();
+
+// Clear specific pages
+await clearFontCache([1, 2, 3]);
+```
+
+### Priority Pages
+
+Pre-defined page groups for common use cases:
+
+```typescript
+import {
+  PRIORITY_PAGES,    // 53 most-read pages
+  JUZ_30_PAGES,      // Juz 30 (pages 582-604)
+  AL_FATIHAH_PAGES,  // Al-Fatihah (pages 1-2)
+  AL_KAHF_PAGES,     // Al-Kahf (pages 293-304)
+  YASIN_PAGES,       // Yasin (pages 440-445)
+  AL_MULK_PAGES,     // Al-Mulk (pages 562-564)
+  AR_RAHMAN_PAGES,   // Ar-Rahman (pages 531-534)
+  ALL_QURAN_PAGES,   // All 604 pages
+} from 'react-native-quran-hafs';
+```
 
 <!-- ![Screenshot](./screenshots/1.png) -->
 <picture>

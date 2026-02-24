@@ -189,3 +189,24 @@ export interface IQuranJuzs {
   last_verse_id: number;
   verses_count: number;
 }
+
+// Font preloading types
+export interface IFontDownloadResult {
+  success: boolean;
+  page: number;
+  cached: boolean;
+  error?: any;
+}
+
+export interface IFontCacheStats {
+  totalCached: number;
+  cachedPages: number[];
+  totalSizeBytes: number;
+}
+
+export interface IPreloadProgress {
+  current: number;
+  total: number;
+  percentage: number;
+  lastPage: number;
+}
