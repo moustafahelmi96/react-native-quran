@@ -1,6 +1,6 @@
 {
   "name": "@moustafahelmi/react-native-quran-app",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "React Native Quran application with Hafs recitation",
   "main": "src/index.ts",
   "keywords": ["react-native", "quran", "hafs", "islamic", "mobile"],
@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/moustafahelmi/react-native-quran-app"
+    "url": "https://github.com/moustafahelmi96/react-native-quran"
   },
   "scripts": {
     "android": "react-native run-android",
