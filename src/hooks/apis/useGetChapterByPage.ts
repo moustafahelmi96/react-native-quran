@@ -80,11 +80,11 @@ const useGetChapterByPage = ({
       return downoladThePageFont(Number(item), () => {}, QURAN_FONTS_API);
     });
     try {
-      const promiseRes = await Promise.all(promises);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-    } catch (e) {}
+      await Promise.all(promises);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+    }
   };
 
   const getTargetChapterPage = async () => {

@@ -27,6 +27,8 @@ const QuranPageLayout = ({
   quranPageContainerStyle,
   selectionColor,
   autoCompleteAudioAfterPlayingVerse,
+  disableAudio = false,
+  showAudioPlayer = true,
 }: IQuranPageLayout) => {
   const flatlistRef = useRef<any>();
   const {chapterLookUp} = useGetChapterLookup({
@@ -39,7 +41,7 @@ const QuranPageLayout = ({
     type,
     QURAN_FONTS_API: QURAN_FONTS_API,
   });
-  const {allReciters} = useGetReciters({chapterId, type});
+  const {allReciters} = useGetReciters({chapterId, type, skip: disableAudio});
   const audioPlayerRef = useRef<IAudioPlayerRef>();
   const [selectedVerse, setSelectedVerse] = useState<ISurahVerse>(
     {} as ISurahVerse,
@@ -65,8 +67,10 @@ const QuranPageLayout = ({
   );
 
   useEffect(() => {
-    TrackPlayer.setupPlayer();
-  }, []);
+    if (!disableAudio) {
+      TrackPlayer.setupPlayer();
+    }
+  }, [disableAudio]);
   useEffect(() => {
     if (!isLoading && selectedBookedMarkedVerse) {
       setSelectedVerse(selectedBookedMarkedVerse);
@@ -154,22 +158,24 @@ const QuranPageLayout = ({
             }}
           />
         )}
-        <AudioPlayer
-          ref={audioPlayerRef}
-          chapterId={selectedVerse?.chapter_id ?? chapterId}
-          setSelectedVerse={setSelectedVerse}
-          selectedVerse={selectedVerse}
-          allReciter={allReciters}
-          versesBeforeAndAfterCurrentVerse={versesBeforeAndAfterCurrentVerse}
-          setVersesBeforeAndAfterCurrentVerse={
-            setVersesBeforeAndAfterCurrentVerse
-          }
-          originalVerse={originalVerse}
-          showSlider={showSlider}
-          autoCompleteAudioAfterPlayingVerse={
-            autoCompleteAudioAfterPlayingVerse
-          }
-        />
+        {!disableAudio && showAudioPlayer && (
+          <AudioPlayer
+            ref={audioPlayerRef}
+            chapterId={selectedVerse?.chapter_id ?? chapterId}
+            setSelectedVerse={setSelectedVerse}
+            selectedVerse={selectedVerse}
+            allReciter={allReciters}
+            versesBeforeAndAfterCurrentVerse={versesBeforeAndAfterCurrentVerse}
+            setVersesBeforeAndAfterCurrentVerse={
+              setVersesBeforeAndAfterCurrentVerse
+            }
+            originalVerse={originalVerse}
+            showSlider={showSlider}
+            autoCompleteAudioAfterPlayingVerse={
+              autoCompleteAudioAfterPlayingVerse
+            }
+          />
+        )}
       </View>
     </SafeAreaView>
   );

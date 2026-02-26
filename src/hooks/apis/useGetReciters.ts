@@ -8,15 +8,19 @@ import {I18nManager} from 'react-native';
 const useGetReciters = ({
   chapterId,
   type,
+  skip = false,
 }: {
   chapterId: number;
   type: QuranTypesEnums;
+  skip?: boolean;
 }) => {
   const [allReciters, setAllReciters] = useState<IReciter[]>([]);
   const {getChapterAudionUrl} = useGetChapterAudio();
   useEffect(() => {
-    getReciters();
-  }, []);
+    if (!skip) {
+      getReciters();
+    }
+  }, [skip]);
 
   const getReciters = async () => {
     const queryParams = {

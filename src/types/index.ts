@@ -174,6 +174,8 @@ export interface IQuranPageLayout {
   quranPageContainerStyle?: StyleProp<ViewStyle>;
   selectionColor?: ColorValue;
   autoCompleteAudioAfterPlayingVerse?: boolean;
+  disableAudio?: boolean;
+  showAudioPlayer?: boolean;
 }
 
 export enum QuranTypesEnums {
